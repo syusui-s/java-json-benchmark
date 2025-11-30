@@ -108,6 +108,8 @@ dependencies {
     implementation 'io.github.wycst:wast:0.0.29.1'
     // djomo
     implementation 'com.bigcloud.djomo:djomo:0.9.4'
+    // simdjson-java
+    implementation 'org.simdjson:simdjson-java:0.4.0'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

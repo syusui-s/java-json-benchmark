@@ -161,4 +161,11 @@ public class Deserialization extends JsonBench {
     public Object djomo() throws Exception {
         return JSON_SOURCE().provider().djomo().fromString(JSON_SOURCE().nextString(), JSON_SOURCE().pojoType());
     }
+
+    @Benchmark
+    @Override
+    public Object simdjson_java() throws Exception {
+        byte[] buffer = JSON_SOURCE().nextByteArray();
+        return JSON_SOURCE().provider().simdjsonJava().parse(buffer, buffer.length, JSON_SOURCE().pojoType());
+    }
 }

@@ -33,6 +33,7 @@ import jodd.typeconverter.TypeConverterManager;
 import org.apache.johnzon.core.JsonProviderImpl;
 import org.apache.johnzon.mapper.Mapper;
 import org.eclipse.yasson.JsonBindingProvider;
+import org.simdjson.SimdJsonParser;
 
 import javax.annotation.Nullable;
 import jakarta.json.bind.Jsonb;
@@ -146,6 +147,7 @@ public class ClientsJsonProvider implements JsonProvider<Clients> {
             }).build().adapter(Clients.class);
 
     private final QsonMapper qson = new QsonMapper();
+    private static final ThreadLocal<SimdJsonParser> SIMD_JSON_PARSER = ThreadLocal.withInitial(() -> new SimdJsonParser(4 * 1024 * 1024, 1024));
 
     /*
      * DSL-json
@@ -317,4 +319,9 @@ public class ClientsJsonProvider implements JsonProvider<Clients> {
                 jsonContext.writeString(value.toString());
                 return true;
             }));
+
+    @Override
+    public SimdJsonParser simdjsonJava() {
+        return SIMD_JSON_PARSER.get();
+    }
 }

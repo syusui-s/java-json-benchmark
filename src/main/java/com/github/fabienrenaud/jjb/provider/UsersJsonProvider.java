@@ -20,6 +20,7 @@ import io.quarkus.qson.generator.QsonMapper;
 import org.apache.johnzon.core.JsonProviderImpl;
 import org.apache.johnzon.mapper.Mapper;
 import org.eclipse.yasson.JsonBindingProvider;
+import org.simdjson.SimdJsonParser;
 
 import java.util.Collections;
 
@@ -46,6 +47,7 @@ public class UsersJsonProvider implements JsonProvider<Users> {
     private final org.apache.johnzon.mapper.Mapper johnzon;
     private final com.squareup.moshi.JsonAdapter<Users> moshi = new Moshi.Builder().build().adapter(Users.class);
     private final QsonMapper qson = new QsonMapper();
+    private static final ThreadLocal<SimdJsonParser> SIMD_JSON_PARSER = ThreadLocal.withInitial(() -> new SimdJsonParser(4 * 1024 * 1024, 1024));
 
     /*
      * DSL-json
@@ -193,4 +195,9 @@ public class UsersJsonProvider implements JsonProvider<Users> {
             .setPreserveProtoFieldNames(true)
             .setWriteEnumsAsInts(false));
 
+
+    @Override
+    public SimdJsonParser simdjsonJava() {
+        return SIMD_JSON_PARSER.get();
+    }
 }

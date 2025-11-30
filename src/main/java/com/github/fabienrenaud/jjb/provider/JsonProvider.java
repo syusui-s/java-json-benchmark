@@ -13,6 +13,7 @@ import org.apache.johnzon.mapper.Mapper;
 import jakarta.json.bind.Jsonb;
 import us.hebi.quickbuf.JsonSink;
 import us.hebi.quickbuf.ProtoMessage;
+import org.simdjson.SimdJsonParser;
 
 public interface JsonProvider<T> {
 
@@ -61,5 +62,7 @@ public interface JsonProvider<T> {
     JsonSink quickbufSink();
 
     com.bigcloud.djomo.Json djomo();
+
+    SimdJsonParser simdjsonJava();
 
 }
